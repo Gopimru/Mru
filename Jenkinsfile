@@ -1,21 +1,10 @@
-pipeline {
+xpipeline {
     agent any
-
     stages {
-        stage('Clone') {
+        stage('Hello') {
             steps {
-                echo 'Cloning code...'
+                echo "Hello Jenkins! Current time: ${new Date()}"
             }
         }
-
-        stage('Build') {
-            steps {
-                echo 'Building project...'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-            }
-
+    }
+}

@@ -2,53 +2,29 @@ pipeline {
     agent any
 
     stages {
-
-        // 1️⃣ Checkout
-        stage('Checkout') {
+        stage('Groovy Basics') {
             steps {
-                git branch: 'master', url: 'https://github.com/example/myapp.git'
-            }
-        }
+                script {
+                    // Simple message
+                    println "Hello from Jenkins Groovy!"
 
-        // 2️⃣ Build
-        stage('Build') {
-            steps {
-                sh '''
-                python -m venv venv
-                source venv/bin/activate
-                pip install -r requirements.txt
-                '''
-            }
-        }
+                    // Loop through a list
+                    def fruits = ['Apple', 'Banana', 'Cherry']
+                    for (fruit in fruits) {
+                        println "I like ${fruit}"
+                    }
 
-        // 3️⃣ Test
-        stage('Test') {
-            steps {
-                sh '''
-                source venv/bin/activate
-                pytest tests/
-                '''
-            }
-        }
-
-        // 4️⃣ Deploy
-        stage('Deploy') {
-            steps {
-                sh '''
-                source venv/bin/activate
-                scp -r ./myapp user@server:/var/www/myapp
-                ssh user@server "systemctl restart myapp"
-                '''
+                    // Run a shell command
+                    def dateOutput = sh(script: 'date', returnStdout: true).trim()
+                    println "Current date and time: ${dateOutput}"
+                }
             }
         }
     }
 
     post {
         success {
-            echo "Pipeline completed successfully on master!"
-        }
-        failure {
-            echo "Pipeline failed. Check logs."
+            echo "Groovy script executed successfully!"
         }
     }
 }
